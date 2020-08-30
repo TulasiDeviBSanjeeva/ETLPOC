@@ -16,18 +16,18 @@ public class JobUtil {
     public static void handleJobFailures(String jobName, List<Throwable> failureExceptions) {
         Throwable throwable = failureExceptions.stream().findFirst().get();
         if (throwable instanceof ResourceNotFoundException) {
-            throw new ResourceNotFoundException(buildErrorMessage(jobName, throwable), throwable);
+            throw new ResourceNotFoundException(buildErrorMessage(jobName, throwable.getMessage()), throwable);
         } else if (throwable instanceof StepListenerFailedException) {
-            throw new FileParseException(buildErrorMessage(jobName, throwable), throwable);
+            throw new FileParseException(buildErrorMessage(jobName, throwable.getCause().toString()), throwable);
         } else {
-            throw new RuntimeException(buildErrorMessage(jobName, throwable), throwable);
+            throw new RuntimeException(buildErrorMessage(jobName, throwable.getMessage()), throwable);
         }
     }
 
-    private static String buildErrorMessage(String jobName, Throwable throwable) {
+    private static String buildErrorMessage(String jobName, String detailedMessage) {
         StringBuilder errorMessage = new StringBuilder();
         errorMessage.append("Job[" + jobName + "] execution failed.");
-        errorMessage.append("Reason : '" + throwable.getMessage() + "'");
+        errorMessage.append("Reason : '" + detailedMessage + "'");
         return errorMessage.toString();
     }
 
