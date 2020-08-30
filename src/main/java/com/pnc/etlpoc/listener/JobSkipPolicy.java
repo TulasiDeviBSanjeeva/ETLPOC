@@ -3,6 +3,9 @@ package com.pnc.etlpoc.listener;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 
+/**
+ * Fault tolerance handler.
+ */
 public class JobSkipPolicy implements SkipPolicy {
 
     @Override

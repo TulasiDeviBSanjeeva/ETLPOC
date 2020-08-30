@@ -20,8 +20,7 @@ public class ItemListener extends ItemListenerSupport<Speaker, Speaker> {
             FlatFileParseException ffpe = (FlatFileParseException) ex;
             StringBuilder errorMessage = new StringBuilder();
             errorMessage.append("An error occured while processing the " + ffpe.getLineNumber() + " line of the file. "
-                    + "Below was the faulty input.\n");
-            errorMessage.append(ffpe.getInput() + "\n");
+                    + "Below was the faulty input." + ffpe.getInput());
             log.error(errorMessage.toString(), ffpe);
             throw ffpe;
         } else {

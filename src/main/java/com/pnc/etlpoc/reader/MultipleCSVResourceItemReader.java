@@ -1,8 +1,7 @@
 package com.pnc.etlpoc.reader;
 
-import com.pnc.etlpoc.config.BeanWrapperFieldSetMapperCustom;
+import com.pnc.etlpoc.batchConfig.BeanWrapperFieldSetMapperCustom;
 import com.pnc.etlpoc.model.Speaker;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -10,30 +9,27 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 
+import static com.pnc.etlpoc.util.JobUtil.Constants.*;
+
 /**
- * Read the csv file, use FlatFileItemReader here, and convert to Person output.
+ * Reader to read the CSV file.
  */
-@Slf4j
 public class MultipleCSVResourceItemReader extends MultiResourceItemReader<Speaker> {
 
-    public static final String RESOURCE_ROOT = "/data/";
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String SUBJECT = "subject";
-    public static final String DATE = "date";
-    public static final String WORDS = "words";
+    private static final String READER_NAME = "MultipleCSVFileReader";
 
-    public MultipleCSVResourceItemReader(String inputResources) {
-        this.setName("MultipleCSVFileReader");
-        this.setResources(new ClassPathResource[]{new ClassPathResource(RESOURCE_ROOT + inputResources.split(",")[0]),
-                new ClassPathResource(RESOURCE_ROOT + inputResources.split(",")[1])});
+    public MultipleCSVResourceItemReader(String inputResourceUrl1, String inputResourceUrl2) {
+        ClassPathResource inputResource1 = getClasspathResource(inputResourceUrl1);
+        ClassPathResource inputResource2 = getClasspathResource(inputResourceUrl2);
+        this.setName(READER_NAME);
+        this.setResources(new ClassPathResource[]{inputResource1, inputResource2});
         this.setDelegate(delegate());
     }
 
     @Bean
     public FlatFileItemReader<Speaker> delegate() {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-        lineTokenizer.setNames(new String[]{ID, NAME, SUBJECT, DATE, WORDS});
+        lineTokenizer.setNames(new String[]{FIELD_ID, FIELD_NAME, FIELD_SUBJECT, FIELD_DATE, FIELD_WORDS});
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(true);
 
@@ -44,9 +40,13 @@ public class MultipleCSVResourceItemReader extends MultiResourceItemReader<Speak
         customerLineMapper.setLineTokenizer(lineTokenizer);
         customerLineMapper.setFieldSetMapper(fieldSetMapper);
         customerLineMapper.afterPropertiesSet();
-        FlatFileItemReader<Speaker> reader = new FlatFileItemReader<Speaker>();
+        FlatFileItemReader<Speaker> reader = new FlatFileItemReader<>();
         reader.setLineMapper(customerLineMapper);
         return reader;
+    }
+
+    private ClassPathResource getClasspathResource(String inputResourceUrl1) {
+        return new ClassPathResource(RESOURCE_ROOT + inputResourceUrl1.substring(inputResourceUrl1.lastIndexOf("/") + 1));
     }
 
 }

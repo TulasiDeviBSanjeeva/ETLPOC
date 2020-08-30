@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Model
+ */
 @Data
 @Entity
 public class Speaker implements Serializable {

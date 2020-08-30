@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repository handle for Speaker entity.
+ */
 @Repository
 public interface SpeakerRepository extends JpaRepository<Speaker, Long> {
 

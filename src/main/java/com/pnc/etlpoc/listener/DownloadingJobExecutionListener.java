@@ -1,6 +1,7 @@
 package com.pnc.etlpoc.listener;
 
 import com.pnc.etlpoc.exception.ResourceNotFoundException;
+import com.pnc.etlpoc.util.JobUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -12,11 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.pnc.etlpoc.util.JobUtil.Constants.RESOURCE_ROOT;
+
 @Slf4j
 public class DownloadingJobExecutionListener extends JobExecutionListenerSupport {
 
     private static final String TARGET_DIR = DownloadingJobExecutionListener.class.getClassLoader()
-            .getResource(".").getFile() + "/data/";
+            .getResource(".").getFile() + RESOURCE_ROOT;
     private String resourceUrl1;
     private String resourceUrl2;
     private long startTime;
@@ -25,8 +28,8 @@ public class DownloadingJobExecutionListener extends JobExecutionListenerSupport
     @SneakyThrows
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        this.resourceUrl1 = jobExecution.getJobParameters().getString("job.inputCSVFileResource1");
-        this.resourceUrl2 = jobExecution.getJobParameters().getString("job.inputCSVFileResource2");
+        this.resourceUrl1 = jobExecution.getJobParameters().getString(JobUtil.Constants.JOB_PARAMETER_1);
+        this.resourceUrl2 = jobExecution.getJobParameters().getString(JobUtil.Constants.JOB_PARAMETER_2);
 
         startTime = System.currentTimeMillis();
         log.info("Job started. [JobName:{}][jobExecutionId:{}]",
@@ -45,23 +48,9 @@ public class DownloadingJobExecutionListener extends JobExecutionListenerSupport
                 resourceNames.append(targetFileName + ",");
                 log.info(" Downloaded File : " + targetFile.getAbsolutePath());
             }
-            jobExecution.getExecutionContext().put("inputResources", resourceNames.substring(0, resourceNames.length() - 1));
-
         } catch (IOException e) {
             throw e;
         }
-    }
-
-    private boolean copyResourceFromUrlToFile(String resourceUrl, File target) throws IOException {
-        try {
-            URL inputUrlResource = new URL(resourceUrl);
-            // Copy bytes from the URL to the destination file.
-            FileUtils.copyURLToFile(inputUrlResource, target);
-        } catch (IOException e) {
-            log.error("URL Resource : " + resourceUrl + " NOT found or corrupted." + e);
-            throw new ResourceNotFoundException("Resource at url (" + resourceUrl + ") NOT found or corrupted.");
-        }
-        return true;
     }
 
     @Override
@@ -73,6 +62,18 @@ public class DownloadingJobExecutionListener extends JobExecutionListenerSupport
                     jobExecution.getId(), jobExecution.getExitStatus().getExitCode());
             log.info("!!! JOB FINISHED! Time consumed :" + (endTime - startTime) + "ms");
         }
+    }
+
+    private boolean copyResourceFromUrlToFile(String resourceUrl, File target) {
+        try {
+            URL inputUrlResource = new URL(resourceUrl);
+            // Copy bytes from the URL to the destination file.
+            FileUtils.copyURLToFile(inputUrlResource, target);
+        } catch (IOException e) {
+            log.error("URL Resource : " + resourceUrl + " NOT found or corrupted." + e);
+            throw new ResourceNotFoundException("Resource at url (" + resourceUrl + ") NOT found or corrupted.");
+        }
+        return true;
     }
 
 

@@ -1,5 +1,8 @@
 package com.pnc.etlpoc.exception;
 
+/**
+ * Exception
+ */
 public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException(String message) {
