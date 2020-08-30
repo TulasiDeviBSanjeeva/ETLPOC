@@ -49,7 +49,7 @@ public class JobConfiguration {
                 .<Speaker, Speaker>chunk(20)
                 .reader(reader)
                 .writer(writer)
-                .faultTolerant().skipPolicy(skipPolicy())
+                //.faultTolerant().skipPolicy(skipPolicy()) // TODO : requirement to be clarified on how failures are expected to be handled
                 .listener(itemListener)
                 .build();
     }

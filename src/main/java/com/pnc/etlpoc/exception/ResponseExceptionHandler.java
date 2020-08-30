@@ -16,25 +16,24 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Throwable.class)
-    protected ResponseEntity<Object> handleAnyException(Exception ex, WebRequest request) {
-        log.error("Request {} failed with {}", request, ex);
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName(), ex.getMessage());
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
-    }
-
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     protected ResponseEntity<Object> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName(), ex.getMessage());
+        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName());
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(FileParseException.class)
+    protected ResponseEntity<Object> fileParseException(FileParseException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName());
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object> globalExceptionHandler(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName(), ex.getMessage());
+        ApiError apiError = new ApiError(status.toString(), ex.getMessage(), ex.getClass().getSimpleName());
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
     }
 
@@ -45,7 +44,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         String status;
         String message;
         String exception;
-        String detail;
     }
 
 }

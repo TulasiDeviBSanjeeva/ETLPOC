@@ -1,5 +1,6 @@
 package com.pnc.etlpoc.controller;
 
+import com.pnc.etlpoc.exception.FileParseException;
 import com.pnc.etlpoc.exception.ResourceNotFoundException;
 import com.pnc.etlpoc.repository.SpeakerRepository;
 import com.pnc.etlpoc.response.SpeakerInfoResponse;
@@ -7,6 +8,7 @@ import com.pnc.etlpoc.util.HttpDownloadUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.listener.StepListenerFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,16 +73,21 @@ public class SpeakerController {
                 .addString("job.inputCSVFileResource1", resource1)
                 .addString("job.inputCSVFileResource2", resource2)
                 .toJobParameters();
-        try {
-            jobExecution = jobLauncher.run(importCSVJob, jobParameters);
-            List<Throwable> failureExceptions = jobExecution.getAllFailureExceptions();
-            if (!jobExecution.getExitStatus().equals(ExitStatus.COMPLETED) && failureExceptions.size() > 0) {
-                throw new RuntimeException(String.format("%s Job execution failed.",
-                        jobExecution.getJobInstance().getJobName() + failureExceptions.toString()));
+
+        jobExecution = jobLauncher.run(importCSVJob, jobParameters);
+        List<Throwable> failureExceptions = jobExecution.getAllFailureExceptions();
+        if (!jobExecution.getExitStatus().equals(ExitStatus.COMPLETED) && failureExceptions.stream().count() > 0) {
+            Throwable throwable = failureExceptions.stream().findFirst().get();
+            if (throwable instanceof ResourceNotFoundException) {
+                throw new ResourceNotFoundException(String.format("JobName[%s] Job execution failed. Reason : %s",
+                        jobExecution.getJobInstance().getJobName(), throwable), throwable);
+            } else if (throwable instanceof StepListenerFailedException) {
+                throw new FileParseException(String.format("JobName[%s] Job execution failed. Reason : %s",
+                        jobExecution.getJobInstance().getJobName(), throwable.getCause()), throwable);
+            } else {
+                throw new RuntimeException(String.format("JobName[%s] Job execution failed. Reason : %s",
+                        jobExecution.getJobInstance().getJobName(), throwable.getCause()), throwable);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("%s Job execution failed.",
-                    jobExecution.getJobInstance().getJobName()));
         }
     }
 
@@ -89,4 +96,5 @@ public class SpeakerController {
         return HttpDownloadUtility.getResourceAtUrl(url)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource at url (" + url + ") NOT found or corrupted."));
     }
+
 }
