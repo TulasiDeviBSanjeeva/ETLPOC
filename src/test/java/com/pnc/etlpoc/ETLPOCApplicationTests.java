@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -42,6 +43,7 @@ class ETLPOCApplicationTests {
     int randomServerPort;
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummarySuccess() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_1_CSV;
         String url2 = VALID_SPEAKER_DATA_2_CSV;
@@ -63,6 +65,7 @@ class ETLPOCApplicationTests {
     }
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummaryFailure_MissingRequestParameters() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_1_CSV;
         String url2 = null;
@@ -81,6 +84,7 @@ class ETLPOCApplicationTests {
     }
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummaryFailure_WithHttpStatus_404_ResourceNotFound() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_1_CSV;
         String url2 = UNKNOWN_SPEAKER_DATA_6_CSV;
@@ -99,6 +103,7 @@ class ETLPOCApplicationTests {
     }
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummaryFailure_WithHttpStatus_400_BadRequest() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_1_CSV;
         String url2 = INVALID_ADDRESSES_CSV;
@@ -116,6 +121,7 @@ class ETLPOCApplicationTests {
     }
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummarySuccess_BestSpeakerWithMostSpeechIn2012_NoAnswerPossible() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_3_CSV;
         String url2 = VALID_SPEAKER_DATA_4_CSV;
@@ -137,6 +143,7 @@ class ETLPOCApplicationTests {
     }
 
     @Test
+    @Sql(scripts = "/schema_test.sql")
     public void testRetrieveSpeakerSummarySuccess_BestSpeakerWithMostSpeechIn2012_NoUniqueAnswerPossible() throws URISyntaxException {
         String url1 = VALID_SPEAKER_DATA_4_CSV;
         String url2 = VALID_SPEAKER_DATA_5_CSV;
@@ -154,7 +161,7 @@ class ETLPOCApplicationTests {
 
         Assert.assertEquals("zero", speakerSummaryResult.getBody().getMostSpeeches());
         Assert.assertEquals("Alexander Abel2", speakerSummaryResult.getBody().getMostSecurity()); //Query picks Top 1 speaker
-        Assert.assertEquals("Bernhard Belling2", speakerSummaryResult.getBody().getLeastWords());
+        Assert.assertEquals("Caesare Collins2", speakerSummaryResult.getBody().getLeastWords());
     }
 
 }
