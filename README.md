@@ -7,11 +7,15 @@ Scenario: Implementation of a feature in Java or Scala with subsequent code revi
 Goal: Processing statistics on political speeches.
 Input: CSV files (UTF-8 encoding) corresponding to the following scheme:
 speaker, subject, date, words. Example CSV content -
+
+```
 Speaker,Subject,Date,Words
 Alexander Abel,Education Policy,2012-10-30,5310 
 Bernhard Belling,coal subsidies,2012-11-05,1210 
 Caesare Collins,coal subsidies,2012-11-06,1119
 Alexander Abel,Internal Security,2012-12-11,911
+
+```
 
 You want to be able to start an HTTP server with Maven or SBT that has 1 or more URLS as query parameters under the route 
 GET /evaluation ?url1=url1&url2=url2.
