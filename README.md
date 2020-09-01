@@ -45,7 +45,7 @@ The proposed solution is identified to be able to handle not only few data sets 
 The ETL solution is addressed using Spring Batch. It is expected for the batch application to process large volumes of data, performance and robustness. 
 
 ## How to Run
-This application is packaged as a jar which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. You run it using the ```java -jar``` command.
+This application is packaged as a jar which has Tomcat 8 embedded. No Tomcat or JBoss installation is necessary. 
 
 * Clone this repository 
 * Make sure you are using JDK 1.8 and Maven 3.x
