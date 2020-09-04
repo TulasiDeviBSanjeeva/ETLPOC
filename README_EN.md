@@ -2,11 +2,11 @@
 POC of an ETL solution using spring batch
 
 ## Problem Scope
-Task: Political speeches
-Scenario: Implementation of a feature in Java or Scala with subsequent code review and productive deployment.
-Goal: Processing statistics on political speeches.
-Input: CSV files (UTF-8 encoding) corresponding to the following scheme:
-speaker, subject, date, words. Example CSV content -
+Task: Political speeches. 
+Scenario: Implementation of a feature in Java or Scala with subsequent code review and productive deployment.  
+Goal: Processing statistics on political speeches.  
+Input: CSV files (UTF-8 encoding) corresponding to the following scheme:  
+speaker, subject, date, words. Example CSV content -  
 
 ```
 Speaker,Subject,Date,Words
@@ -68,6 +68,7 @@ Once the application runs you should see something like this
 * The API is "self documented" by Swagger2. You can access the api documentation under http://localhost:8080/v2/api-docs
 * Browse to http://localhost:8080/swagger-ui.html to test.
 * If you are using any rest client like Postman, following requests would be helpful
+
 ### TestCase 1
 http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv
 ```
