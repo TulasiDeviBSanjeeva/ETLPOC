@@ -44,15 +44,14 @@ Körper: {
 Die vorgeschlagene Lösung ist so konzipiert, dass nicht nur wenige Datensätze, sondern auch mehrere Gigabyte verarbeitet werden können.
 Die ETL-Lösung wird mit Spring Batch adressiert. Von der Batch-Anwendung wird erwartet, dass sie große Datenmengen verarbeiten kann, leistungsfähig und robust ist. 
 
-TechStack :
-
-Java8
-SpringBoot-Batch
-SpringBoot-Daten JPA
-H2-In-Memory-Datenbank
-Swagger2
-Und einige andere Dienstprogrammbibliotheken von lombok, apache commons, httpclient
-Maven als Build-Tool
+TechStack :  
+Java8  
+SpringBoot-Batch  
+SpringBoot-Daten JPA  
+H2-In-Memory-Datenbank  
+Swagger2  
+Und einige andere Dienstprogrammbibliotheken von lombok, apache commons, httpclient  
+Maven als Build-Tool  
 
 ## Ausführung
 Diese Anwendung ist in einem Tiegel verpackt, in den Tomcat 8 eingebettet ist. Eine Tomcat- oder JBoss-Installation ist nicht erforderlich. 
