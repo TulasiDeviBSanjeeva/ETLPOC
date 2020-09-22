@@ -79,7 +79,7 @@ Once the application runs you should see something like this
 * If you are using any rest client like Postman, following requests would be helpful
 
 ### TestCase 1
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data2.csv
 ```
 Response Code : 200
 {
@@ -90,7 +90,7 @@ Response Code : 200
 ```
 
 ### TestCase2
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv&url2=null
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data1.csv&url2=null
 ```
 {
     "status": "400 BAD_REQUEST",
@@ -100,7 +100,7 @@ http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/T
 ```
 
 ### TestCase3
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data6.csv
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data6.csv
 ```
 {
     "status": "404 NOT_FOUND",
@@ -110,7 +110,7 @@ http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/T
 ```
 
 ### TestCase4
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/addresses.csv
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data1.csv&url2=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/addresses.csv
 ```
 {
     "status": "400 BAD_REQUEST",
@@ -120,7 +120,7 @@ http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/T
 ```
 
 ### TestCase5
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data3.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data4.csv
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data3.csv&url2=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data4.csv
 ```
 {
     "mostSpeeches": "zero",
@@ -130,7 +130,7 @@ http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/T
 ```
 
 ### TestCase6
-http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data4.csv&url2=https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data5.csv
+http://localhost:8080/api/speakers/info?url1=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data4.csv&url2=https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/speaker-data5.csv
 
 ```
 {
@@ -159,7 +159,7 @@ And addresses following queries -
 
 For Example: Using CLI Curl
 ```
-curl -X GET "http://localhost:8080/api/speakers/info?url1=https%3A%2F%2Fraw.githubusercontent.com%2FTulasiDeviBSanjeeva%2FTestData%2Fmaster%2Fdata%2Fspeaker-data1.csv&url2=https%3A%2F%2Fraw.githubusercontent.com%2FTulasiDeviBSanjeeva%2FTestData%2Fmaster%2Fdata%2Fspeaker-data2.csv" -H "accept: application/json"
+curl -X GET "http://localhost:8080/api/speakers/info?url1=https%3A%2F%2Fraw.githubusercontent.com%2Ftsanjeeva01%2Ftestdata%2Fmaster%2Fdata%2Fspeaker-data1.csv&url2=https%3A%2F%2Fraw.githubusercontent.com%2Ftsanjeeva01%2Ftestdata%2Fmaster%2Fdata%2Fspeaker-data2.csv" -H "accept: application/json"
 
 HttpStatus Code 200
 Response body
