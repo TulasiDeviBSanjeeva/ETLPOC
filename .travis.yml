@@ -13,8 +13,10 @@ jdk:
   - oraclejdk8
 
 script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=tsanjeeva01_springbatch-etl-poc
   # JaCoCo is used to have code coverage, "-Pcoverage" activates the maven profile in the pom.xml
-  - mvn clean test sonar:sonar -Dsonar.login=1438f6e662eabc094c908358861f980c88e5e8ba
+  #- mvn clean test sonar:sonar -Dsonar.login=1438f6e662eabc094c908358861f980c88e5e8ba
 
 cache:
   directories:
