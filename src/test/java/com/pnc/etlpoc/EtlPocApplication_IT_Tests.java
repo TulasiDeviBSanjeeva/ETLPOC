@@ -31,22 +31,23 @@ import java.net.URISyntaxException;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ETLPOCApplicationTests {
 
-    private static final String VALID_SPEAKER_DATA_1_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data1.csv";
-    private static final String VALID_SPEAKER_DATA_2_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data2.csv";
-    private static final String VALID_SPEAKER_DATA_3_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data3.csv";
-    private static final String VALID_SPEAKER_DATA_4_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data4.csv";
-    private static final String VALID_SPEAKER_DATA_5_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data5.csv";
-    private static final String INVALID_ADDRESSES_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/addresses.csv";
-    private static final String UNKNOWN_SPEAKER_DATA_6_CSV = "https://raw.githubusercontent.com/TulasiDeviBSanjeeva/TestData/master/data/speaker-data6.csv";
+    private static final String TESTDATA_PATH = "https://raw.githubusercontent.com/tsanjeeva01/testdata/master/data/";
+    private static final String VALID_SPEAKER_DATA_1 = TESTDATA_PATH + "speaker-data1.csv";;
+    private static final String VALID_SPEAKER_DATA_2 = TESTDATA_PATH + "speaker-data2.csv";
+    private static final String VALID_SPEAKER_DATA_3 = TESTDATA_PATH + "speaker-data3.csv";
+    private static final String VALID_SPEAKER_DATA_4 = TESTDATA_PATH + "speaker-data4.csv";
+    private static final String VALID_SPEAKER_DATA_5 = TESTDATA_PATH + "speaker-data5.csv";
+    private static final String INVALID_ADDRESSES = TESTDATA_PATH + "addresses.csv";
+    private static final String UNKNOWN_SPEAKER_DATA_6 = TESTDATA_PATH + "speaker-data6.csv";
 
     @LocalServerPort
     int randomServerPort;
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummarySuccess() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_1_CSV;
-        String url2 = VALID_SPEAKER_DATA_2_CSV;
+        String url1 = VALID_SPEAKER_DATA_1;
+        String url2 = VALID_SPEAKER_DATA_2;
 
         RestTemplate restTemplate = new RestTemplate();
         final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;
@@ -65,9 +66,9 @@ class ETLPOCApplicationTests {
     }
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummaryFailure_MissingRequestParameters() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_1_CSV;
+        String url1 = VALID_SPEAKER_DATA_1;
         String url2 = null;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -84,10 +85,10 @@ class ETLPOCApplicationTests {
     }
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummaryFailure_WithHttpStatus_404_ResourceNotFound() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_1_CSV;
-        String url2 = UNKNOWN_SPEAKER_DATA_6_CSV;
+        String url1 = VALID_SPEAKER_DATA_1;
+        String url2 = UNKNOWN_SPEAKER_DATA_6;
 
         RestTemplate restTemplate = new RestTemplate();
         final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;
@@ -103,10 +104,10 @@ class ETLPOCApplicationTests {
     }
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummaryFailure_WithHttpStatus_400_BadRequest() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_1_CSV;
-        String url2 = INVALID_ADDRESSES_CSV;
+        String url1 = VALID_SPEAKER_DATA_1;
+        String url2 = INVALID_ADDRESSES;
 
         RestTemplate restTemplate = new RestTemplate();
         final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;
@@ -121,10 +122,10 @@ class ETLPOCApplicationTests {
     }
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummarySuccess_BestSpeakerWithMostSpeechIn2012_NoAnswerPossible() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_3_CSV;
-        String url2 = VALID_SPEAKER_DATA_4_CSV;
+        String url1 = VALID_SPEAKER_DATA_3;
+        String url2 = VALID_SPEAKER_DATA_4;
 
         RestTemplate restTemplate = new RestTemplate();
         final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;
@@ -143,10 +144,10 @@ class ETLPOCApplicationTests {
     }
 
     @Test
-    @Sql(scripts = "/schema_test.sql")
+    @Sql(scripts = "/schema.sql")
     public void testRetrieveSpeakerSummarySuccess_BestSpeakerWithMostSpeechIn2012_NoUniqueAnswerPossible() throws URISyntaxException {
-        String url1 = VALID_SPEAKER_DATA_4_CSV;
-        String url2 = VALID_SPEAKER_DATA_5_CSV;
+        String url1 = VALID_SPEAKER_DATA_4;
+        String url2 = VALID_SPEAKER_DATA_5;
 
         RestTemplate restTemplate = new RestTemplate();
         final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;

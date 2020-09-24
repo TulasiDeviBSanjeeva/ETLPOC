@@ -1,0 +1,23 @@
+dist: trusty
+language: java
+sudo: false
+install: true
+
+addons:
+  sonarcloud:
+    organization: "tsanjeeva01-github"
+    token:
+      secure: "pW5VyD0stovNa78minMCj54+gKHCmVI0V8X9ra+u0bi59FqYwAEOupmTtDnQHmDIB73oiiEgQXWN38kuREDAh+kRoaj5wNU+BEqwLFya+esrxv9D+6ze1l93JedCoUsSKpVo9cUoxDptMSynW8y+KrU/fK+8thpsH3SdGxzE0+BU3SJCeWyCRJ8D/K1JVxBmiNbxcqvzp/Ts6je3Ss7Ehs4JVtWMZT5n2BE/rRdRDQ7mrdiVHBnZJqD6KkERplld95Rczdzlwk164Qbx7QkMGgaV8X2/dQIkR8BR2OjJlCJq5I1+9IKmbRvA7rGCG5CFAcaE/V//ijjqddazxUfoCHAihRTyT15zDW17/xTnXIT1zaTc+WxoGHLv682tUkyuCS5wE1EcooopEd23Hxqg00XlHp3QgT5oxgxBAXLej9eZ/roP/iX2pBLzMevRXQdbrZQLvCsAmIs8N3URBatHlrZLVFmCFrYuZVlovfH354KI9wCyID8U4YO7Fx8pcRQxzj3hyW01YgiT8TTNVuBqZ7DcbLj5FfaKjvGxqDvTqLWuAqmklPQ+liHQl2bDwfxO409t4o0FHfzoVVAA1AbEJjRZySC5UqNDJrZfMP5Xi4ln9ER911opf11DNXdY2C5qeONbq73834+8cgmlajLbQfmZCN6gjWEtAhcyQfemJO8="
+
+jdk:
+  - oraclejdk8
+
+script:
+  # JaCoCo is used to have code coverage, "-Pcoverage" activates the maven profile in the pom.xml
+  - mvn clean test sonar:sonar -Dsonar.login=1438f6e662eabc094c908358861f980c88e5e8ba
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+

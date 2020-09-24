@@ -1,8 +1,10 @@
-drop table speaker;
-create table speaker(
-    id integer not null,
-    name varchar(255) not null,
-    subject varchar(255),
-    date date not null,
-    words integer
+DROP TABLE IF EXISTS speaker;
+
+CREATE TABLE speaker(
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    subject VARCHAR(255),
+    date DATE NOT NULL,
+    words INTEGER,
+    PRIMARY KEY (id)
 );
