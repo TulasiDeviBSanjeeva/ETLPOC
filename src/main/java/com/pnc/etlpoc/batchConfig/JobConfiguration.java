@@ -50,6 +50,8 @@ public class JobConfiguration {
 
     @Bean
     public Step stepOne(ItemReader<Speaker> reader, ItemWriter<Speaker> writer, ItemReadListener<Speaker> itemListener) {
+
+        System.out.println("test step one");
         return this.stepBuilderFactory.get("readCSV-writeToDb")
                 .<Speaker, Speaker>chunk(20)
                 .reader(reader)

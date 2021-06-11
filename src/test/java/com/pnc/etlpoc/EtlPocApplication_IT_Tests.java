@@ -1,6 +1,7 @@
 package com.pnc.etlpoc;
 
 import com.pnc.etlpoc.response.SpeakerSummaryDTO;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  * Test Coverage :
@@ -63,6 +67,20 @@ class ETLPOCApplicationTests {
         Assert.assertEquals("Alexander Abel", speakerSummaryResult.getBody().getMostSpeeches());
         Assert.assertEquals("Alexander Abel", speakerSummaryResult.getBody().getMostSecurity());
         Assert.assertEquals("Caesare Collins", speakerSummaryResult.getBody().getLeastWords());
+    }
+
+    @SneakyThrows
+    @Test
+    public void testWithHttpClient() {
+        String url1 = VALID_SPEAKER_DATA_1;
+        String url2 = VALID_SPEAKER_DATA_2;
+
+        final String buildUrl = "http://localhost:" + randomServerPort + "/api/speakers/info?url1=" + url1 + "&url2=" + url2;
+
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url1)).build();
+        HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
     }
 
     @Test
